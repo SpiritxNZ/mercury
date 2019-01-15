@@ -13,6 +13,9 @@
         <th scope="col">CV/id<br/>transcript/vetting</th>
         <th scope="col">Action</th>
       </tr>
+      <tr>
+          <th colspan="11"*ngIf="errorMessage" style="color: red">Error: {{errorMessage}}</th>
+      </tr>
   </thead>
   <tbody>
     <tr *ngFor="let applicant of applicants">

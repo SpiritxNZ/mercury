@@ -16,6 +16,8 @@ export class AdminTutorApplicantComponent implements OnInit {
   time3 = '';
   place3 = '';
 
+  errorMessage: string;
+
   constructor(
     private adminService: AdminService,
     private elRef: ElementRef
@@ -24,7 +26,10 @@ export class AdminTutorApplicantComponent implements OnInit {
   ngOnInit() {
     this.adminService.indexApplicants().subscribe(
       (res) => { console.log(res),  this.applicants = res['dataSecret'].applicants; },
-      (err) => console.log(err)
+      (err) => { 
+        console.log(err);
+        this.errorMessage = err.error.message;
+      }
     );
   }
 
@@ -52,6 +57,7 @@ export class AdminTutorApplicantComponent implements OnInit {
       console.log(res);
     }, (err) => {
       console.log(err);
+      this.errorMessage = err.error.message;
     });
   }
 
@@ -85,6 +91,7 @@ export class AdminTutorApplicantComponent implements OnInit {
       console.log(res);
     }, (err) => {
       console.log(err);
+      this.errorMessage = err.error.message;
     });
   }
   process(event) {
@@ -106,6 +113,7 @@ export class AdminTutorApplicantComponent implements OnInit {
       console.log(res);
     }, (err) => {
       console.log(err);
+      this.errorMessage = err.error.message;
     });
   }
 }

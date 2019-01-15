@@ -4,7 +4,7 @@ table{
 /* #table1{
     width:100%;
 } */
-#tableHeader th{
+#tableHeader{
   position: -webkit-sticky;
   position: sticky;
   top:0;
