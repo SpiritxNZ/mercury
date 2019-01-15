@@ -1,0 +1,72 @@
+<table class="table" id="table1">
+  <thead class="thead-dark" id="tableHeader">
+    <tr id="tableHeader">
+        <th scope="col">Name</th>
+        <th scope="col">DOB</th>
+        <th scope="col">phone number</th>
+        <th scope="col">discipline,curriculum,location</th>
+        <th scope="col">work_1</th>
+        <th scope="col">criminal_record</th>
+        <th scope="col">condition</th>
+        <th scope="col">interview</th>
+        <th scope="col">sp_ques</th>
+        <th scope="col">CV/id<br/>transcript/vetting</th>
+        <th scope="col">Action</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let applicant of applicants">
+      <td>{{applicant.first_name}}<br/>{{applicant.last_name}}</td>
+      <td>{{applicant.DOB|date:"dd.MM.y"}}</td>
+      <td>{{applicant.phone_num_pri}}</td>
+      <td>{{applicant.discipline}}<br/>{{applicant.curriculum}}<br/>{{applicant.location}}</td>
+      <td *ngIf ="applicant.work_1!==null || applicant.work_1_detail!==null || applicant.work_1_date!==null">
+        <button [ngbPopover]="popContent" placement="bottom-left" #p="ngbPopover" class="btn btn-outline-secondary btn-sm">work.1</button>
+      </td>
+      <td *ngIf ="applicant.work_1==null && applicant.work_1_detail==null && applicant.work_1_date==null">
+        No
+      </td>
+
+
+      <ng-template #popContent>
+        <div *ngIf="applicant.work_1!==null"><b>Work1:</b>{{applicant.work_1}}</div><div *ngIf="applicant.work_1==null"><b>Work1:</b>No</div>
+        <div *ngIf="applicant.work_1_detail!==null"><b>Detail:</b>{{applicant.work_1_detail}}</div>
+        <div *ngIf="applicant.work_1_detail==null"><b>Detail:</b>No</div>
+        <div *ngIf="applicant.work_1_date!==null"><b>Date:</b>{{applicant.work_1_date}}</div><div *ngIf="applicant.work_1_date==null"><b>Date:</b>No</div>
+      </ng-template>
+
+
+      <td>{{applicant.criminal_record}}</td>
+      <td>{{applicant.condition}}</td>
+      <td *ngIf ="applicant.interview_time!==null">{{applicant.interview_time}},{{applicant.contract_signature}}</td>
+      <td *ngIf ="applicant.interview_time===null">
+        <button [ngbPopover]="popIntSlot" placement="bottom-left" #p="ngbPopover" [autoClose]="false" *ngIf="applicant.condition === 'pending'" id="add{{applicant.user_id}}" class="btn btn-outline-danger btn-sm">Add</button>
+      </td>
+      <ng-template #popIntSlot>
+        <form (ngSubmit)="onSubmit($event)" #f="ngForm" id="for{{applicant.user_id}}">
+          <label for="time1" class="form-inline">Time:&nbsp;&nbsp;<input type="text" class="form-control" id="time1" placeholder="" name="time1" [(ngModel)]="time1"></label>
+          <label for="place1" class="form-inline">Place:&nbsp;&nbsp;<input type="text" class="form-control" id="place1" placeholder="" name="place1" [(ngModel)]="place1"></label>
+          <hr>
+          <label for="time2" class="form-inline">Time:&nbsp;&nbsp;<input type="text" class="form-control" id="time2" placeholder=""  name="time2" [(ngModel)]="time2"></label>
+          <label for="place2" class="form-inline">Place: &nbsp;&nbsp;<input type="text" class="form-control" id="place2" placeholder=""  name="place2" [(ngModel)]="place2"></label>
+          <hr>
+          <label for="time3" class="form-inline">Time: &nbsp;&nbsp;<input type="text" class="form-control" id="time3" placeholder=""  name="time3" [(ngModel)]="time3"></label>
+          <label for="place3" class="form-inline">Place: &nbsp;&nbsp;<input type="text" class="form-control" id="place3" placeholder="" name="place3" [(ngModel)]="place3"></label>
+          <button type="submit" class="btn btn-primary">submit</button>
+        </form>
+
+      </ng-template>
+      <td *ngIf ="applicant.sp_ques_1==null"> {{applicant.sp_ques_1}}, {{applicant.sp_ques_2}}</td>
+      <td *ngIf ="applicant.sp_ques_1!==null"> <button [ngbPopover]="popSp_ques" placement="bottom-right" #p="ngbPopover" class="btn btn-outline-secondary btn-sm">sp_ques</button></td>
+      <ng-template #popSp_ques><b>sp_ques_1:</b><br/>{{applicant.sp_ques_1}}<br/><b>sp_ques_2:</b><br/>{{applicant.sp_ques_2}}</ng-template>
+      <td>CV <br/>photo_id <br/>academic_transcript<br/> vetting_form</td>
+      <td>
+        <button *ngIf="applicant.condition == 'pending_interview' || applicant.condition == 'update' || applicant.condition=='interview' || applicant.condition=='pending'" type="button" id="dec{{applicant.user_id}}" [ngbPopover]="declineContent" placement="bottom-right" #p="ngbPopover" class="btn btn-outline-danger btn-sm">Decline</button>
+        <ng-template #declineContent> Are you sure?<br/><br/><button (click)="process($event)" class="btn btn-outline-danger btn-sm">Yes</button> <button class="btn btn-outline-success btn-sm"style="margin-left:50px">No</button> </ng-template>
+        <button *ngIf="applicant.condition == 'pending_interview'" type="button" id="app{{applicant.user_id}}" (click)="process($event)">Approve</button>
+        <button *ngIf="applicant.condition == 'contract_signed'" type="button" id="new{{applicant.user_id}}" [ngbPopover]="newTutorContent" placement="bottom-right" #p="ngbPopover" class="btn btn-outline-danger btn-sm">New Tutor</button>
+        <ng-template #newTutorContent> Are you sure?<br/><br/><button (click)="addNewTutor($event)" class="btn btn-outline-danger btn-sm">Yes</button> <button class="btn btn-outline-success btn-sm" style="margin-left:50px">No</button> </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>

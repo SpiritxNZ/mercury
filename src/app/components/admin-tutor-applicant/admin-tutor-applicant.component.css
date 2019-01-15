@@ -1,0 +1,20 @@
+table{
+  font-size: 12px;
+}
+/* #table1{
+    width:100%;
+} */
+#tableHeader th{
+  position: -webkit-sticky;
+  position: sticky;
+  top:0;
+}
+/* ::ng-deep #popSp_ques .popover .bs-popover-bottom .bs-popover-bottom-right{
+  width:300px;
+} */
+::ng-deep .popover{
+    max-width: 400px;
+}
+::ng-deep .popover-body{
+  width:400px;
+}

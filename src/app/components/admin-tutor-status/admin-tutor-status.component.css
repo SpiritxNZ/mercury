@@ -1,0 +1,21 @@
+:host /deep/.bigPop .popover{
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+  :host /deep/.smPop .popover{
+    width: 100% !important;
+    max-width: 250px !important;
+  }
+  table{
+    font-size: 12px;
+  }
+  #tableHeader th{
+    position: -webkit-sticky;
+    position: sticky;
+    top:0;
+  }
+  .th1{
+    width: 5%;
+  }
+  
+  

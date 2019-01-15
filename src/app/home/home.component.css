@@ -1,0 +1,24 @@
+.left{
+    border-left:white solid 10px; 
+    border-right:white solid 5px; 
+    height:500px; 
+    background-color:red;
+    margin-top:10px;
+}
+.right{
+    border-right:white solid 10px; 
+    border-left:white solid 5px; 
+    height:500px; 
+    background-color:blue;
+    margin-top:10px;
+}
+@media (max-width: 768px) {
+    .left {
+        border-right:white solid 0px; 
+        border-left:white solid 0px;
+    }
+    .right{
+        border-right:white solid 0px; 
+        border-left:white solid 0px; 
+    }
+}

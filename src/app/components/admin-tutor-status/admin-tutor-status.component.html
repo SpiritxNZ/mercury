@@ -1,0 +1,88 @@
+<table class="table" style="text-align: center">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col" class="th1">Name</th>
+    <th scope="col" class="th1">Location</th>
+    <th scope="col" class="th1">Phone</th>
+    <th scope="col" class="th1">Email</th>
+    <th scope="col">Status</th>
+    <th scope="col">Introduction</th>
+    <th scope="col">CV Info</th>
+    <th scope="col">Video</th>
+    <th scope="col">Specialisation</th>
+    <th scope="col">Teaching Location</th>
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let tutor of tutors">
+    <td>{{tutor.first_name}}<br/>{{tutor.last_name}}</td>
+    <td>{{tutor.location}}</td>
+    <td>{{tutor.phone_num_pri}}<br/></td>
+    <td>{{tutor.email}}</td>
+    <td *ngIf="tutor.publish == '2'"><span style="color: aquamarine">Published</span></td>
+    <td *ngIf="tutor.publish == '0'"><span>Not Published</span></td>
+    <td *ngIf="tutor.publish == '1'"><span style="color: #ff3030">Checking</span></td>
+    <td class="bigPop">
+      <button [ngbPopover]="popInfo" placement="bottom-right" class="btn btn-outline-info btn-sm">Info</button>
+    </td>
+    <ng-template #popInfo>
+      <p>About {{tutor.first_name}}</p>
+      <p>{{tutor.intro_statement}}</p>
+    </ng-template>
+    <td class="smPop">
+      <button [ngbPopover]="popEdu" placement="bottom-right" class="btn btn-outline-dark btn-sm">Education</button>
+      <button [ngbPopover]="popWork" placement="bottom-right" class="btn btn-outline-dark btn-sm">Work</button><br/>
+      <button [ngbPopover]="popQuo" placement="bottom-right" class="btn btn-outline-dark btn-sm">Quote</button>
+      <button [ngbPopover]="popHob" placement="bottom-right" class="btn btn-outline-dark btn-sm">Hobby</button>
+    </td>
+    <ng-template #popEdu>
+      {{tutor.edu_1_date}}<br/>{{tutor.edu_1_detail}}<br/>{{tutor.edu_1}}<br/>
+      {{tutor.edu_2_date}}<br/>{{tutor.edu_2_detail}}<br/>{{tutor.edu_2}}<br/>
+      {{tutor.edu_3_date}}<br/>{{tutor.edu_3_detail}}<br/>{{tutor.edu_3}}
+    </ng-template>
+    <ng-template #popWork>
+      {{tutor.work_1_date}}<br/>{{tutor.work_1_detail}}<br/>{{tutor.work_1}}<br/>
+      {{tutor.work_2_date}}<br/>{{tutor.work_2_detail}}<br/>{{tutor.work_2}}<br/>
+      {{tutor.work_3_date}}<br/>{{tutor.work_3_detail}}<br/>{{tutor.work_3}}
+    </ng-template>
+    <ng-template #popQuo>
+      {{tutor.quote}}<br/>
+      {{tutor.quote_author}}
+    </ng-template>
+    <ng-template #popHob>
+      {{tutor.hobby_1}}<br/>{{tutor.hobby_1_detail}}<br/>
+      {{tutor.hobby_2}}<br/>{{tutor.hobby_2_detail}}<br/>
+    </ng-template>
+    <td class="bigPop"><button [ngbPopover]="popVid" placement="bottom-right" class="btn btn-outline-dark btn-sm">Video</button></td>
+    <ng-template #popVid><iframe width="420" height="315" [src]="this.sanitizer.bypassSecurityTrustResourceUrl(tutor.profile_video)"></iframe></ng-template>
+    <td><button [ngbPopover]="popSpe" placement="bottom-right" class="btn btn-outline-dark btn-sm">Special</button></td>
+    <ng-template #popSpe>
+      Ages: <span *ngIf="tutor.sp_ages !== null">{{tutor.sp_ages.split("\"").join("").slice(1,-1)}}</span><br/>
+      Course: <span *ngIf="tutor.sp_course_focus !== null">{{tutor.sp_course_focus.split("\"").join("").slice(1,-1)}}</span><br/>
+      Experience: <span *ngIf="tutor.sp_experience !== null">{{tutor.sp_experience.split("\"").join("").slice(1,-1)}}</span><br/>
+      Lesson Structure: <span *ngIf="tutor.sp_lesson_structure !== null">{{tutor.sp_lesson_structure.split("\"").join("").slice(1,-1)}}</span><br/>
+      Test: <span *ngIf="tutor.sp_test_prep !== null">{{tutor.sp_test_prep.split("\"").join("").slice(1,-1)}}</span>
+    </ng-template>
+    <td class="smPop"><button [ngbPopover]="popTec" placement="bottom-right" class="btn btn-outline-dark btn-sm">Teaching Location</button></td>
+    <ng-template #popTec><span *ngIf="tutor.teaching_locations !== null">{{tutor.teaching_locations.split("\"\,\"").join("\n//").slice(2,-2)}}</span></ng-template>
+    <td>
+      <span *ngIf="tutor.publish == '2'"><button class="btn btn-outline-danger btn-sm" [ngbPopover]="noPubtn" placement="bottom-right">Not Publish</button></span>
+      <span *ngIf="tutor.publish == '0'"> </span>
+      <span *ngIf="tutor.publish == '1'"><button class="btn btn-outline-success btn-sm" [ngbPopover]="toPubtn" placement="bottom-right">Publish</button></span>
+      <br/><span class="bigPop"><button [ngbPopover]="popMes" placement="bottom-right"[autoClose]="false" class="btn btn-outline-primary btn-sm">Message</button></span>
+    </td>
+    <ng-template #noPubtn> Are you sure?<br/><br/><button (click)="noPub($event)" class="btn btn-outline-success btn-sm" id="nop{{tutor.user_id}}">Yes</button> <button class="btn btn-outline-danger btn-sm"style="margin-left:50px">No</button> </ng-template>
+    <ng-template #toPubtn> Are you sure?<br/><br/><button (click)="toPub($event)" class="btn btn-outline-success btn-sm" id="top{{tutor.user_id}}">Yes</button> <button class="btn btn-outline-danger btn-sm"style="margin-left:50px">No</button> </ng-template>
+    <ng-template #popMes>
+      <form class="smPop" (ngSubmit)="onSubmit($event)" #f="ngForm" id="for{{tutor.user_id}}">
+        Title:<input type="text" class="form-control" id="text1">
+        Message:<textarea class="form-control" id="message1" rows="5"></textarea>
+        <button class="btn btn-outline-success btn-sm" [ngbPopover]="toSub" placement="bottom-right">Submit</button>
+      </form>
+    </ng-template>
+    <ng-template #toSub> Are you sure?<br/><br/><button type="submit" class="btn btn-outline-success btn-sm">Yes</button> <button class="btn btn-outline-danger btn-sm"style="margin-left:50px">No</button> </ng-template>
+  </tr>
+
+  </tbody>
+</table>
